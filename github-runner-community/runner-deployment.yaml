@@ -1,11 +1,11 @@
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: RunnerDeployment
 metadata:
-  name: k3d-runnerdeploy
+  name: runner-deploy-jimmy #can change name
 spec:
   replicas: 1
   template:
     spec:
-      repository: newkung6/ActionrunnerK3d #Github repo url user/repo
+      repository: newkung6/actionrunner-selfhost #Github repo url user/repo
       labels:
-      - for-ci-only #tag for run-on)
+      - for-community-only #tag for run-on
