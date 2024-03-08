@@ -1,8 +1,8 @@
-# Actionrunner for repo test
-FOR Simple Runner :https://actions-runner-controller.github.io/actions-runner-controller/
+# Action-Runner for repo test
+FOR Simple Runner :https://actions-runner-controller.github.io/actions-runner-controller/  
 Full Ref: https://github.com/actions/actions-runner-controller/tree/master
 ### Preriqisite
-Kubecluster (in example is in K3D) 
+Kubecluster (in example is in K3D)  
 Create [Access Token](https://github.com/settings/tokens/new)
 with Check box (repo , admin:org) 
 
@@ -19,13 +19,17 @@ helm repo update
 
 kubectl create ns actions-runner-system
 
-helm upgrade --install --namespace actions-runner-system \ --set=authSecret.create=true \--set=authSecret.github_token="YOUR-AccessToken" --wait actions-runner-controller actions-runner-controller/actions-runner-controller
+helm upgrade --install --namespace actions-runner-system \
+--set=authSecret.create=true \
+--set=authSecret.github_token="YOUR-AccessToken" \
+--wait actions-runner-controller actions-runner-controller/actions-runner-controller
 ```
 
 ## Apply runner-deployment to any namespace you want
-kubectl create ns actionrunner-k3d
+kubectl create ns actionrunner-k3d  
 kubectl apply -f runner-deployment.yaml
 
+runner-deployment.yaml
 ```
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: RunnerDeployment
@@ -38,17 +42,17 @@ spec:
       repository: newkung6/ActionrunnerK3d #Github repo url user/repo
 ```
 
-after pod running. Check Repo runner
-![alt text](ImageforReadme/image.png)
-
+after pod running. Check Repo runner  
+![alt text](ImageforReadme/runner-community.png)
 
 # ActionrunnerK3d For Github Official 
-Ref 1: https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners-with-actions-runner-controller/quickstart-for-actions-runner-controller
+Ref 1: https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners-with-actions-runner-controller/quickstart-for-actions-runner-controller  
 Ref 2: https://medium.com/simform-engineering/how-to-setup-self-hosted-github-action-runner-on-kubernetes-c8825ccbb63c
 
-#Preriqisite
-Kubecluster (in example is in K3D)
-create Access Token with Repo , admin:org
+### Preriqisite
+Kubecluster (in example is in K3D)  
+Create [Access Token](https://github.com/settings/tokens/new)
+with Check box (repo , admin:org) 
 
 Create runner Namespace and create secret
 ```
@@ -57,7 +61,7 @@ kubectl create secret generic pre-defined-secret \
    --namespace=arc-runners \
    --from-literal=github_token='YOUR-Accesstoken'
 ```
-your copy of the values.yaml file, pass the secret name as a reference.
+your copy of the values.yaml file, pass the secret name as a reference.  
 secretvalues.yaml
 ```
 githubConfigSecret: pre-defined-secret
@@ -87,3 +91,5 @@ helm install "${INSTALLATION_NAME}" \
     --set githubConfigSecret.github_token="${GITHUB_PAT}" \
     oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
 ```
+IF pod Created. You will see runner in repo
+![alt text](ImageforReadme/runner-scale-set.png)
