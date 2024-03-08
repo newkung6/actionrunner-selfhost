@@ -1,0 +1,11 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: k3d-runnerdeploy
+spec:
+  replicas: 1
+  template:
+    spec:
+      repository: newkung6/ActionrunnerK3d #Github repo url user/repo
+      labels:
+      - for-ci-only #tag for run-on)
