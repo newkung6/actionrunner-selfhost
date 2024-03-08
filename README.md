@@ -50,12 +50,15 @@ Ref 2: https://medium.com/simform-engineering/how-to-setup-self-hosted-github-ac
 Kubecluster (in example is in K3D)
 create Access Token with Repo , admin:org
 
+Create runner Namespace and create secret
 ```
+kubectl create ns arc-runners
 kubectl create secret generic pre-defined-secret \
    --namespace=arc-runners \
    --from-literal=github_token='YOUR-Accesstoken'
 ```
 your copy of the values.yaml file, pass the secret name as a reference.
+secretvalues.yaml
 ```
 githubConfigSecret: pre-defined-secret
 ```
