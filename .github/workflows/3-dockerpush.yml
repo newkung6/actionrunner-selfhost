@@ -22,10 +22,10 @@ jobs:
       uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }} #Generate From Docker Hub
     - name: Build and push
       uses: docker/build-push-action@v5
       with:
         push: true
-        context: sample/dockerpython
-        tags: nidonewsan/dockerpythonaction
+        context: sample/dockerpython #path of Dockerfile <context>/Dockerfile 
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_REPONAME }}:${{ steps.meta.outputs.tags }} #Tag Image for push in docker HUB

@@ -111,6 +111,7 @@ Main Target file : .github/workflows
 ## Github-Action #1 Hello World 
 
 ### Sample "hello world from docker" using SelfHost
+#### **`1-helloworld-selfhost.yml`**
 ```
 # This is a basic workflow to help you get started with Actions
 name: Hello World
@@ -150,9 +151,70 @@ Or check error log when fail to build
 ![alt text](ImageforReadme/github-action-2.png)
 
 ## Github-Action #2 Docker Build & Test
+Use Simple Action to Test run Docker Build
+#### **`2-dockerbuildandtest.yml`**
+```
+name: Docker build and test
 
-## Github-Action #2 Docker Push to Docker Hub
+on:
+  push:
+    tags:
+    - 'v2.*.*' #TODO Don't Forget to change the way You want to Trigger
+  workflow_dispatch:
+# you can trigger on anything you want
+
+jobs:
+  build:
+    runs-on: for-community-only #Runner tag name
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build Docker image
+      run: docker build -t dockerpythonimagetest sample/dockerpython # docker buile -t <new name> <Docker Directory> 
+
+    - name: Run tests inside the container
+      run: docker run dockerpythonimagetest
+```
+
+## Github-Action #3 Docker Push to Docker Hub
 Ref: https://github.com/marketplace/actions/build-and-push-docker-images  
 Ref2 : [Use Secret for Action](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions)
 
-Note* You should Set Var & Secret in Repository Env 
+Note* You should Set Secret in Repository secret 
+![alt text](ImageforReadme/github-action-3.png)
+
+#### **`3-dockerpush.yml`**
+```
+name: CI-DOCKER-PUSH
+
+on:
+  push:
+    tags:
+    - 'v3.*.*'
+
+jobs:
+  docker:
+    runs-on: for-community-only #runner tag name
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }} #Generate From Docker Hub
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        push: true
+        context: sample/dockerpython #path of Dockerfile <context>/Dockerfile 
+        tags: <user>/<imagetagname>:<tag version> #Tag Image for push in docker HUB
+```
