@@ -1,0 +1,30 @@
+name: CI
+on:
+  push:
+    tags:
+      - 'v2.*.*'
+jobs:
+  container-test-job:
+    runs-on: for-community-only
+    container: gcr.io/kaniko-project/executor:v1.9.0-debug
+    steps:
+      - name: Check runner
+        run: ls -lrt
+
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+
+      - name: kaniko
+        run: |
+
+            mkdir -p /kaniko/.docker
+
+            ls -lrt
+
+            pwd
+
+            # Add dev auth (Example harbor registry )
+            # echo "{\"auths\":{\"xxx.xxx.xxx.com\":{\"username\":\"${{ secrets.HARBOR_USER }}\",\"password\":\"${{ secrets.HARBOR_PASS }}\"}}}" > /kaniko/.docker/config.json
+
+            # /kaniko/executor --context "dockerpython" --dockerfile "Dockerfile" --destination "xxx.xxx.xxx.com/sandbox/testpython:latest"

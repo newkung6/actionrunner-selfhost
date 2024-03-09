@@ -1,7 +1,7 @@
 # Action-Runner-101
--[Action-Runner for Community Edition](https://github.com/newkung6/actionrunner-selfhost?tab=readme-ov-file#actionrunner-for-community-edition)  
--[Action-Runner Official-Edition](https://github.com/newkung6/actionrunner-selfhost?tab=readme-ov-file#actionrunnerk3d-for-github-official)  
--[Github-Action](-)
+-[Action-Runner for Community Edition](#actionrunner-for-community-edition)  
+-[Action-Runner Official-Edition](e#actionrunnerk3d-for-github-official)  
+-[Github-Action]()
 
 # Action-Runner for Community Edition
 FOR Simple Runner :https://actions-runner-controller.github.io/actions-runner-controller/  
@@ -102,3 +102,4 @@ helm install "${INSTALLATION_NAME}" \
 ```
 IF pod Created. You will see runner in repo
 ![alt text](ImageforReadme/runner-scale-set.png)
+
