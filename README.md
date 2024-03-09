@@ -108,6 +108,8 @@ Ref : https://docs.github.com/en/actions
 
 Main Target file : .github/workflows
 
+## Github-Action #1 Hello World 
+
 ### Sample "hello world from docker" using SelfHost
 ```
 # This is a basic workflow to help you get started with Actions
@@ -146,3 +148,11 @@ Or check error log when fail to build
 ![alt text](ImageforReadme/github-action-1.png)
 ### Result
 ![alt text](ImageforReadme/github-action-2.png)
+
+## Github-Action #2 Docker Build & Test
+
+## Github-Action #2 Docker Push to Docker Hub
+Ref: https://github.com/marketplace/actions/build-and-push-docker-images  
+Ref2 : [Use Secret for Action](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions)
+
+Note* You should Set Var & Secret in Repository Env 
