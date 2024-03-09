@@ -6,7 +6,7 @@ on:
 jobs:
   container-test-job:
     runs-on: for-community-only
-    container: gcr.io/kaniko-project/executor:v1.9.0-debug
+    container: gcr.io/kaniko-project/executor:v1.21.1-debug
     steps:
       - name: Check runner
         run: ls -lrt
