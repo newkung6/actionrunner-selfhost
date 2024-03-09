@@ -1,7 +1,7 @@
 # Action-Runner-101
--[Action-Runner for Community Edition](https://github.com/newkung6/actionrunner-selfhost?tab=readme-ov-file#actionrunner-for-community-edition)  
--[Action-Runner Official-Edition](https://github.com/newkung6/actionrunner-selfhost?tab=readme-ov-file#actionrunnerk3d-for-github-official)  
--[Github-Action](-)
+-[Action-Runner for Community Edition](#actionrunner-for-community-edition)  
+-[Action-Runner Official-Edition](#actionrunnerk3d-for-github-official)  
+-[Github-Action](#github-action)
 
 # Action-Runner for Community Edition
 FOR Simple Runner :https://actions-runner-controller.github.io/actions-runner-controller/  
@@ -102,3 +102,128 @@ helm install "${INSTALLATION_NAME}" \
 ```
 IF pod Created. You will see runner in repo
 ![alt text](ImageforReadme/runner-scale-set.png)
+
+# Github-action
+Ref : https://docs.github.com/en/actions  
+
+Main Target file : .github/workflows  
+-[Hello-World](#1-helloworld-selfhostyml)  
+-[Docker-Build-Test](#2-dockerbuildandtestyml)  
+-[Docker-Build-Push-HUB](#3-dockerpushyml)
+
+
+## Github-Action #1 Hello World 
+
+### Sample "hello world from docker" using SelfHost
+#### **`1-helloworld-selfhost.yml`**
+```
+# This is a basic workflow to help you get started with Actions
+name: Hello World
+
+# Controls when the action will run.
+on:
+  push:
+    tags:
+    - 'v1.*.*'   #triger when push tag v1.x.x
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: for-community-only  #change selfhost-name here
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    # Runs a single command using the runners shell
+    - name: Run a one-line script
+      run: echo Hello, world!
+
+    # # Runs docker hello-world
+    - name: Hello from Docker
+      run: docker run hello-world
+```
+
+After push You can Check what Process is Running  
+Or check error log when fail to build
+![alt text](ImageforReadme/github-action-1.png)
+### Result
+![alt text](ImageforReadme/github-action-2.png)
+
+## Github-Action #2 Docker Build & Test
+Use Simple Action to Test run Docker Build
+#### **`2-dockerbuildandtest.yml`**
+```
+name: Docker build and test
+
+on:
+  push:
+    tags:
+    - 'v2.*.*' #TODO Don't Forget to change the way You want to Trigger
+  workflow_dispatch:
+# you can trigger on anything you want
+
+jobs:
+  build:
+    runs-on: for-community-only #Runner tag name
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build Docker image
+      run: docker build -t dockerpythonimagetest sample/dockerpython # docker buile -t <new name> <Docker Directory> 
+
+    - name: Run tests inside the container
+      run: docker run dockerpythonimagetest
+```
+
+## Github-Action #3 Docker Push to Docker Hub
+Ref: Official bu docker https://github.com/marketplace/actions/build-and-push-docker-images  
+Ref2 : [Use Secret for Action](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions)
+
+Note* You should Set Secret in Repository secret 
+![alt text](ImageforReadme/github-action-3.png)
+
+#### **`3-dockerpush.yml`**
+```
+name: CI-DOCKER-PUSH
+
+on:
+  push:
+    tags:
+    - 'v3.*.*'
+
+jobs:
+  docker:
+    runs-on: for-community-only #runner tag name
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    #SET ENV For Repo tag to imagetag
+    - name: Set output
+      id: meta
+      run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }} #Generate From Docker Hub
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        push: true
+        context: sample/dockerpython #path of Dockerfile <context>/Dockerfile 
+        tags: ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_REPONAME }}:${{ steps.meta.outputs.tag }}:${{ steps.meta.outputs.tag }} #Tag Image for push in docker HUB : <user>/<imagetagname>:<tag version>
+```

@@ -1,0 +1,23 @@
+name: Docker build and test
+
+on:
+  push:
+    tags:
+    - 'v2.*.*'
+  workflow_dispatch:
+# you can trigger on anything you want
+
+jobs:
+  build:
+    runs-on: for-community-only
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build Docker image
+      run: docker build -t dockerpythonimagetest sample/dockerpython # docker buile -t <new name> <Docker Directory> 
+
+    - name: Run tests inside the container
+      run: docker run dockerpythonimagetest
+
+
