@@ -2,7 +2,8 @@ name: CI-KANIKO-DOCKERHUB
 on:
   push:
     tags:
-    - 'v3.*.*'
+    - 'v0.*.*'
+
 jobs:
   docker:
     runs-on: for-community-only
@@ -12,8 +13,8 @@ jobs:
       uses: aevea/action-kaniko@master
       with:
         image: aevea/kaniko
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+        username: ${{ secrets.DOCKERHUB_USERNAME }} #Add to Repo secret 
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
         cache: true
         cache_registry: aevea/cache
         path: sample/dockerpython
@@ -21,7 +22,7 @@ jobs:
 
   # container-test-job:
   #   runs-on: for-community-only
-  #   container: gcr.io/kaniko-project/executor:v1.21.1-debug
+  #   image: gcr.io/kaniko-project/executor:v1.21.1-debug
   #   steps:
   #     - name: Check runner
   #       run: ls -lrt
