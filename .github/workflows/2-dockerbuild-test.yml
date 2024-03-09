@@ -14,6 +14,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build Docker image
-      run: docker build -t sample/dockerpython .
+      run: docker build -t dockerpythonimagetest sample/dockerpython # docker buile -t <new name> <Docker Directory> 
     - name: Run tests inside the container
       run: docker run sample/dockerpython
