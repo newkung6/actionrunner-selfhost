@@ -24,6 +24,12 @@ jobs:
 
             pwd
 
+            # Add dev auth (Example DockerHUB)
+            echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"${{ secrets.DOCKER_HUB_USERPASSWORD }}\"}}}" > /kaniko/.docker/config.json
+
+            /kaniko/executor --context "dockerpython" --dockerfile "Dockerfile" --destination "${{ var.YOUR_IMAGE_NAME }}"
+
+
             # Add dev auth (Example harbor registry )
             # echo "{\"auths\":{\"xxx.xxx.xxx.com\":{\"username\":\"${{ secrets.HARBOR_USER }}\",\"password\":\"${{ secrets.HARBOR_PASS }}\"}}}" > /kaniko/.docker/config.json
 
