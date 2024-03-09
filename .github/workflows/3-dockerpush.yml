@@ -12,6 +12,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    - name: Set output
+      id: meta
+      run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
 
@@ -28,4 +32,4 @@ jobs:
       with:
         push: true
         context: sample/dockerpython #path of Dockerfile <context>/Dockerfile 
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_REPONAME }}:${{ steps.meta.outputs.tags }} #Tag Image for push in docker HUB
+        tags: ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_REPONAME }}:${{ steps.meta.outputs.tag }} #Tag Image for push in docker HUB
