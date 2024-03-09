@@ -106,7 +106,11 @@ IF pod Created. You will see runner in repo
 # Github-action
 Ref : https://docs.github.com/en/actions  
 
-Main Target file : .github/workflows
+Main Target file : .github/workflows  
+-[Hello-World](#1-helloworld-selfhostyml)  
+-[Docker-Build-Test](#2-dockerbuildandtestyml)  
+-[Docker-Build-Push-HUB](#3-dockerpushyml)
+
 
 ## Github-Action #1 Hello World 
 
@@ -178,7 +182,7 @@ jobs:
 ```
 
 ## Github-Action #3 Docker Push to Docker Hub
-Ref: https://github.com/marketplace/actions/build-and-push-docker-images  
+Ref: Official bu docker https://github.com/marketplace/actions/build-and-push-docker-images  
 Ref2 : [Use Secret for Action](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions)
 
 Note* You should Set Secret in Repository secret 
@@ -200,6 +204,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    #SET ENV For Repo tag to imagetag
+    - name: Set output
+      id: meta
+      run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
 
@@ -216,5 +225,5 @@ jobs:
       with:
         push: true
         context: sample/dockerpython #path of Dockerfile <context>/Dockerfile 
-        tags: <user>/<imagetagname>:<tag version> #Tag Image for push in docker HUB
+        tags: ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_REPONAME }}:${{ steps.meta.outputs.tag }}:${{ steps.meta.outputs.tag }} #Tag Image for push in docker HUB : <user>/<imagetagname>:<tag version>
 ```
