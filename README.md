@@ -52,7 +52,7 @@ spec:
 ```
 
 after pod running. Check Repo runner  
-![alt text](ImageforReadme/runner-community.png)
+![alt text](.imageforreadme/runner-community.png)
 
 # Actionrunner For Github Official 
 Ref 1: https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners-with-actions-runner-controller/quickstart-for-actions-runner-controller  
@@ -101,15 +101,15 @@ helm install "${INSTALLATION_NAME}" \
     oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
 ```
 IF pod Created. You will see runner in repo
-![alt text](ImageforReadme/runner-scale-set.png)
+![alt text](.imageforreadme/runner-scale-set.png)
 
 # Github-action
 Ref : https://docs.github.com/en/actions  
 
 Main Target file : .github/workflows  
--[Hello-World](#1-helloworld-selfhostyml)  
--[Docker-Build-Test](#2-dockerbuildandtestyml)  
--[Docker-Build-Push-HUB](#3-dockerpushyml)
+-[Hello-World](#github-action-1-hello-world)  
+-[Docker-Build-Test](#github-action-2-docker-build--test)  
+-[Docker-Build-Push-HUB](#github-action-3-docker-push-to-docker-hub)
 
 
 ## Github-Action #1 Hello World 
@@ -137,7 +137,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v5
 
     # Runs a single command using the runners shell
     - name: Run a one-line script
@@ -150,9 +150,9 @@ jobs:
 
 After push You can Check what Process is Running  
 Or check error log when fail to build
-![alt text](ImageforReadme/github-action-1.png)
+![alt text](.imageforreadme/github-action-1.png)
 ### Result
-![alt text](ImageforReadme/github-action-2.png)
+![alt text](.imageforreadme/github-action-2.png)
 
 ## Github-Action #2 Docker Build & Test
 Use Simple Action to Test run Docker Build
@@ -186,7 +186,7 @@ Ref: Official bu docker https://github.com/marketplace/actions/build-and-push-do
 Ref2 : [Use Secret for Action](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions)
 
 Note* You should Set Secret in Repository secret 
-![alt text](ImageforReadme/github-action-3.png)
+![alt text](.imageforreadme/github-action-3.png)
 
 #### **`3-dockerpush.yml`**
 ```
