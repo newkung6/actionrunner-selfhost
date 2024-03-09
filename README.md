@@ -1,7 +1,7 @@
 # Action-Runner-101
 -[Action-Runner for Community Edition](#actionrunner-for-community-edition)  
--[Action-Runner Official-Edition](e#actionrunnerk3d-for-github-official)  
--[Github-Action]()
+-[Action-Runner Official-Edition](#actionrunnerk3d-for-github-official)  
+-[Github-Action](#github-action)
 
 # Action-Runner for Community Edition
 FOR Simple Runner :https://actions-runner-controller.github.io/actions-runner-controller/  
@@ -103,3 +103,46 @@ helm install "${INSTALLATION_NAME}" \
 IF pod Created. You will see runner in repo
 ![alt text](ImageforReadme/runner-scale-set.png)
 
+# Github-action
+Ref : https://docs.github.com/en/actions  
+
+Main Target file : .github/workflows
+
+### Sample "hello world from docker" using SelfHost
+```
+# This is a basic workflow to help you get started with Actions
+name: Hello World
+
+# Controls when the action will run.
+on:
+  push:
+    tags:
+    - 'v1.*.*'   #triger when push tag v1.x.x
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: for-community-only  #change selfhost-name here
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    # Runs a single command using the runners shell
+    - name: Run a one-line script
+      run: echo Hello, world!
+
+    # # Runs docker hello-world
+    - name: Hello from Docker
+      run: docker run hello-world
+```
+
+After push You can Check what Process is Running  
+Or check error log when fail to build
+![alt text](ImageforReadme/github-action-1.png)
+### Result
+![alt text](ImageforReadme/github-action-2.png)

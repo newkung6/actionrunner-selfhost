@@ -2,7 +2,7 @@ name: CI
 on:
   push:
     tags:
-      - 'v2.*.*'
+      - 'v3.*.*'
 jobs:
   container-test-job:
     runs-on: for-community-only
